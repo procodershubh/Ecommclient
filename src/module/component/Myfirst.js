@@ -61,26 +61,26 @@ function Myfirst() {
                     <hr />
                     <div className='row py-3 '>
                         <div className='col-md-2 text-center'>
-                            <Link to="men" style={{ textDecoration: 'none', color: 'black' }}>Mens Fashion<img src='img/men.png' alt='sk'></img></Link>
+                            <Link to="menfashion" style={{ textDecoration: 'none', color: 'black' }}>Mens Fashion<img src='img/men.png' alt='sk'></img></Link>
                         </div>
                         <div className='col-md-2'>
-                            <Link to="cap" style={{ textDecoration: 'none', color: 'black' }}>Cap<img src='img/cap.png' alt='Cap'></img></Link>
+                            <Link to="womenfashion" style={{ textDecoration: 'none', color: 'black' }}>Cap<img src='img/cap.png' alt='Cap'></img></Link>
 
                         </div>
                         <div className='col-md-2'>
-                            <Link to="sunglass" style={{ textDecoration: 'none', color: 'black' }}>SunGlass<img src='img/sunglass.png' alt='sunglass'></img></Link>
+                            <Link to="menfashion" style={{ textDecoration: 'none', color: 'black' }}>SunGlass<img src='img/sunglass.png' alt='sunglass'></img></Link>
 
                         </div>
                         <div className='col-md-2'>
-                            <Link to="women" style={{ textDecoration: 'none', color: 'black' }}>Women Fashion<img src='img/women.png' alt='women'></img></Link>
+                            <Link to="womenfashion" style={{ textDecoration: 'none', color: 'black' }}>Women Fashion<img src='img/women.png' alt='women'></img></Link>
 
                         </div>
                         <div className='col-md-2'>
-                            <Link to="plaza" style={{ textDecoration: 'none', color: 'black' }}>Plaza<img src='img/plaza.png' alt='plaza'></img></Link>
+                            <Link to="menfashion" style={{ textDecoration: 'none', color: 'black' }}>Plaza<img src='img/plaza.png' alt='plaza'></img></Link>
 
                         </div>
                         <div className='col-md-2'>
-                            <Link to="child" style={{ textDecoration: 'none', color: 'black' }}>Children Fashion<img src='img/child.png' alt='child'></img></Link>
+                            <Link to="menfashion" style={{ textDecoration: 'none', color: 'black' }}>Children Fashion<img src='img/child.png' alt='child'></img></Link>
 
                         </div>
                     </div>

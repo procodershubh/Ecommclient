@@ -32,7 +32,7 @@ function AddressPage() {
         </div>
         <div className="mb-2">
           <label htmlFor="Mobile" className="form-label">Mobile</label>
-          <input type="text" className="form-control" id="address" value={mobile} onChange={(e) => setMobile(e.target.value)} required />
+          <input type="text" className="form-control" id="mobile" value={mobile} onChange={(e) => setMobile(e.target.value)} required />
         </div>
         <div className="mb-2">
           <label htmlFor="city" className="form-label">City</label>
