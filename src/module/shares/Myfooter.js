@@ -3,13 +3,15 @@ import React from 'react'
 function Myfooter() {
   return (
 
-
-    <div className="container">
-  <footer className="py-3 my-4">
-   
+<div className='container-fluid'>
+  <div className='row'>
+    <div className='col-md-12'>
     <p className="text-center text-body-secondary">ER.Shubham</p>
-  </footer>
+
+    </div>
+  </div>
 </div>
+   
   )
 }
 

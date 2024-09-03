@@ -28,9 +28,11 @@
     color: black;
     text-decoration: none;
     background-color: bisque;
-    padding: 5px 10px;
-    border-radius: 15px;
+    padding: 7px 6px;
+    border-radius: 10px;
+    font-size: 12px;
 }
+
 .viewimg .productimg{
     width: 250px;
     padding: 10px;
@@ -93,6 +95,23 @@
     bottom: 0%;
     border-top: 3px solid #3b82f6;
     animation: rotate3 1.15s 0.15s linear infinite;
+  }
+
+  .homebtn{
+    position: relative;
+    top: -169px;
+    height: 44px;
+    width: 84px;
+    margin-left: -91px;
+    background-image: repeating-linear-gradient(90deg, #ff00e5, #ffc204);
+    color: white;
+    align-content: center;
+
+  }
+  .homebtn:hover{
+    box-shadow: 0px 10px 20px 4px rgba(255, 17, 128, 0.932);
+    background-image: repeating-linear-gradient(90deg, #fffa6a, #30fff2);
+
   }
   
   @keyframes rotate1 {

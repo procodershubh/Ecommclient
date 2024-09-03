@@ -20,14 +20,14 @@ function Mycart() {
           <div className="col-md-8">
             <ul className="list-group mb-3">
               {cart.map(product => (
-                <li key={product.id} className="list-group-item d-flex justify-content-between align-items-center">
+                <li key={product._id} className="list-group-item d-flex justify-content-between align-items-center">
                   <div>
                     <h6 className="my-0">{product.title}</h6>
                     <small className="text-muted">{product.description || 'Brief description'}</small>
                   </div>
                   <span className="text-muted">₹{product.price}</span>
                   <button 
-                    onClick={() => removeFromCart(product.id)} 
+                    onClick={() => removeFromCart(product._id)} 
                     className="btn btn-danger btn-sm">
                     Remove
                   </button>
@@ -40,14 +40,8 @@ function Mycart() {
             </ul>
           </div>
           <div className="col-md-4">
-            <button 
-              className="w-100 btn btn-primary btn-lg" 
-              onClick={checkout} 
-              type="button"
-              disabled={cart.length === 0}   
-            >
-              Proceed to Checkout
-            </button>
+            <button className="w-100 btn btn-primary btn-lg" onClick={checkout} type="button" disabled={cart.length === 0}   >Proceed to Checkout</button>
+
           </div>
         </div>
       )}

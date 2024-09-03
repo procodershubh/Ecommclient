@@ -4,10 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle";
 import { BrowserRouter,Routes,Route } from 'react-router-dom';
 import { CartProvider } from './module/component/Cartcontext';
-
-import Mynav from './module/shares/Mynav';
+import Layout from '../src/module/shares/Layout';
 import './style.css';
-import Myfooter from './module/shares/Myfooter';
 import Myfirst from './module/component/Myfirst';
 import Menfashion from './module/dashboard/Menfashion';
 import Womenfashion from './module/dashboard/Womenfashion';
@@ -22,38 +20,44 @@ import AddressPage from './module/component/AddressPage';
 
 import Errorpage from './module/shares/Errorpage';
 import PaymentPage from './module/component/PaymentPage';
+import Homepage from './module/component/Homepage';
 
 
 
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   <React.StrictMode>
 
     <BrowserRouter>
     <CartProvider>
+    <Layout>
+       
+       <Routes>
 
-    
-    <Mynav/>
-    <Routes>
-
-    <Route path='' element={<Myfirst/>}/>
+    <Route path='' element={<Homepage/>}/>
     <Route path='*' element={<Errorpage/>}/>
-    
-    <Route path='menfashion' element={<Menfashion/>}/>
-    <Route path='womenfashion' element={<Womenfashion/>}/>
-    <Route path='childfashion' element={<Childfashion/>}/>
-    <Route path='footwear' element={<Footwear/>}/>
     <Route path='login' element={<Login/>}/>
     <Route path='signup' element={<Signup/>}/>
-    <Route path='childfashion/view/:id' element={<Productdetails/>}/>
-    <Route path='childfashion/view/:id/buynow' element={<Mycart/>}/>
-    <Route path='menfashion/view/:id' element={<Productdetails/>}/>
-    <Route path='menfashion/view/:id/buynow' element={<Mycart/>}/>
-    <Route path='womenfashion/view/:id'element={<Productdetails/>}/>
-    <Route path='womenfashion/view/:id/buynow' element={<Mycart/>}/>
-    <Route path='footwear/view/:id' element={<Productdetails/>}/>
+    <Route path='Home' element={<Myfirst/>}/>
+    <Route path='Home/menfashion' element={<Menfashion/>}/>
+
+    <Route path='Home/womenfashion' element={<Womenfashion/>}/>
+
+    <Route path='Home/childfashion' element={<Childfashion/>}/>
+
+    <Route path='Home/footwear' element={<Footwear/>}/>
+
+   
+    <Route path='Home/childfashion/view/:id' element={<Productdetails/>}/>
+    <Route path='Home/childfashion/view/:id/buynow' element={<Mycart/>}/>
+    <Route path='Home/menfashion/view/:id' element={<Productdetails/>}/>
+    <Route path='Home/menfashion/view/:id/buynow' element={<Mycart/>}/>
+    <Route path='Home/womenfashion/view/:id'element={<Productdetails/>}/>
+    <Route path='Home/womenfashion/view/:id/buynow' element={<Mycart/>}/>
+    <Route path='Home/footwear/view/:id' element={<Productdetails/>}/>
     <Route path='footwear/view/:id/buynow' element={<Mycart/>}/>
     <Route path='cart' element={<Mycart/>}/>
     {/* <Route path='childfashion/view/:id/buylater' element={<Mycart/>}/> */}
@@ -65,9 +69,11 @@ root.render(
 
 
     </Routes>
+    </Layout>
 
 
-    <Myfooter/>
+
+    
     </CartProvider>
 
     </BrowserRouter>

@@ -13,7 +13,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const removeFromCart = (productId) => {
-    setCart(prevCart => prevCart.filter(product => product.id !== productId));
+    setCart(prevCart => prevCart.filter(product => product._id !== productId));
   };
 
   return (

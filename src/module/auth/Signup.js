@@ -15,7 +15,7 @@ function Signup() {
 
   return (
     <form onSubmit={handleSubmit(mysubmit)}>
-      <div className='container-fluid signupbg'>
+      <div className='container-fluid signupbg'  style={{ backgroundImage: 'url(img/home.jpg)', backgroundSize: '100% 100%', height: '100vh' }}>
         <div className='container'>
           <div className='row'>
             <div className='col-md-4'></div>

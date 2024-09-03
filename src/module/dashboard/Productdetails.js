@@ -7,6 +7,7 @@ import { FaRupeeSign } from "react-icons/fa";
 import { MdAddShoppingCart } from "react-icons/md";
 import { IoLocation } from "react-icons/io5";
 import { useCart } from '../component/Cartcontext'; // Adjust path as needed
+import { backendurl } from '../../service';
 
 
 
@@ -25,7 +26,7 @@ function Productdetails() {
 
     useEffect(() => {
         const Viewdetails = () => {
-            axios.get(`https://fakestoreapi.com/products/${id}`).then((d) => {
+            axios.get(`${backendurl}/products/${id}`).then((d) => {
               console.log(d.data); 
               setsingledata(d.data);
              

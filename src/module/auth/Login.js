@@ -1,64 +1,131 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import { backendurl } from '../../service';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
-
-const localdataa=[];
 
 
 function Login() {
 
-  const myredirect =useNavigate()
-
-  const {register,handleSubmit, formState:{ errors}} = useForm()
-  const mysubmit = (data) => {
-    console.log(data);
-    localdataa.push(data);
-    localStorage.setItem("localdata",JSON.stringify(localdataa));
-    
-    myredirect("/")
-  }
+    const usenav = useNavigate();
 
 
-  return (
-    <form onSubmit={handleSubmit(mysubmit)}>
+    const [userlogin, usersetlogin] = useState({
+        email: "",
+        pass: "",
+        check: false,
 
-    <div className='container mt-5 signupbg  '>
-        <div className='row'>
-            <div className='col-md-4'></div>
-            <div className='col-md-4 border shadow p-3 '>
-                <img src='img/logoc.png' alt='logo'></img>
-            
-  <div className="mb-3">
-    <label for="exampleInputEmail1" className="form-label">Email address</label>
-    <input type="email" className="form-control"  {...register("email",{ required: true})}/>
-    {errors.email && <div className="form-text text-danger">We'll never share your email & password with anyone else.</div>}
-    
-  </div>
-  <div className="mb-3">
-    <label for="exampleInputPassword1" className="form-label">Password</label>
-    <input type="password" className="form-control" {...register("pass",{ required: true})} />
-    {errors.pass &&  <div className="form-text text-danger">We'll never share your email & password with anyone else.</div>} 
-  </div>
-  <div className="mb-3 form-check">
-    <input type="checkbox" className="form-check-input" {...register("checkboxx",{required: true})} />
-    {errors.checkboxx &&  <div className="form-text text-danger">Please verify you are not a robot.</div>} 
+    });
 
-    <label className="form-check-label" for="exampleCheck1">Check me out</label>
-  </div>
-  <button type='submit' className='btn btn-primary'>Login</button>
+    const updateinput = (e) => {
+        const { name, value, type, checked } = e.target;
+        usersetlogin((prevData) => ({
+            ...prevData,
+            [name]: type === 'checkbox' ? checked : value
+        }));
+    };
 
-  <hr/>
-  <Link className="btn btn-warning " to="/signup" >Create your  account</Link>
+    const mylogin = async () => {
+
+        const { email, pass, check } = userlogin;
+        if (email === "" || pass === "") {
+            toast.warning("email or password is blank");
+
+        }
+        else if (!check) {
+            toast.warning("You must agree to the terms and conditions");
+            return;
+        }
+
+        try {       
+
+            const mydata = await fetch(`${backendurl}/mylogin`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email, pass
+                })
+            });
+            const res = await mydata.json();
+            console.log(res); // Debugging line
 
 
+
+            if (res.status === 422) {
+
+                const fullname = res.fullname || 'User';
+                localStorage.setItem('fullname', fullname);
+
+                toast.success(`Welcome, ${res.fullname || 'User'}`);
+                setTimeout(() => {
+                    usenav('/Home');
+
+                }, 2000);
+
+            }
+            else if (res.status === 408) {
+                toast.error(res.message || "Invalid email or password");
+            }
+            else if (res.status === 401) {
+                toast.warning("Incorrect Password");
+
+            }
+            else if (res.status === 500) {
+                alert("Internal server error");
+                toast.error(res.message || "Internal server error");
+
+            }
+        }
+        catch (error) {
+            toast.error("Failed to connect to the server");
+            console.error("Error:", error);
+        }
+
+    }
+
+
+
+
+    return (
+        <form >
+
+            <div className='container-fluid  ' style={{ backgroundImage: 'url(img/home.jpg)', backgroundSize: '100% 100%', height: '100vh' }}>
+                <div className='row  '>
+                    <div className='col-md-6'></div>
+                    <div className='col-md-4 border shadow p-3 ' style={{ marginTop: '100px' }}>
+                        <img src='img/logoc.png' alt='logo'></img>
+
+                        <div className="mb-3">
+                            <label for="exampleInputEmail1" className="form-label">Email address</label>
+                            <input type="email" className="form-control" name='email' onChange={updateinput} />
+
+                        </div>
+                        <div className="mb-3">
+                            <label for="exampleInputPassword1" className="form-label">Password</label>
+                            <input type="password" className="form-control" name='pass' onChange={updateinput} />
+                        </div>
+                        <div className="mb-3 form-check">
+                            <input type="checkbox" className="form-check-input" name="check" onChange={updateinput} checked={userlogin.check} />
+
+
+                            <label className="form-check-label" for="exampleCheck1">Check me out</label>
+                        </div>
+                        <input type='button' value="submit" className='btn btn-success' onClick={mylogin} />
+
+                        <hr />
+                        <Link className="btn btn-warning " to="/signup" >Create your  account</Link>
+
+
+                    </div>
+                    <div className='col-md-2'>
+                        <ToastContainer />
+                    </div>
+                </div>
             </div>
-            <div className='col-md-4'></div>
-        </div>
-    </div>
-    </form>
-  )
+        </form>
+    )
 }
 
 export default Login

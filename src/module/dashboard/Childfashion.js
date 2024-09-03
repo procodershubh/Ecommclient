@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { FaStar } from "react-icons/fa6";
 import { FaRegStarHalfStroke } from "react-icons/fa6";
 import { FaRupeeSign } from "react-icons/fa";
+import { backendurl } from '../../service';
 
 
 
@@ -16,7 +17,7 @@ function Childfashion() {
   
 
     const myapi =()=>{
-      axios.get("https://fakestoreapi.com/products").then((d) => {
+      axios.get(`${backendurl}/products`).then((d) => {
         console.log(d.data);
         setmydata(d.data);
       });
@@ -42,7 +43,7 @@ function Childfashion() {
       <div class="col-md-4">
         <div class="d-flex align-items-center mb-2">
           <span class="badge bg-light text-secondary me-2">Sponsored</span>
-          <Link to={`view/${e.id}`}><h5 style={{cursor:'pointer'}} class="mb-0 text-primary">{e.title}</h5></Link>
+          <Link to={`view/${e._id}`}><h5 style={{cursor:'pointer'}} class="mb-0 text-primary">{e.title}</h5></Link>
           {/* <h5 style={{cursor:'pointer'}} class="mb-0 text-primary">{e.title}</h5> */}
         </div>
         <ul class="list-unstyled">
