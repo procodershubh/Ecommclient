@@ -20,8 +20,7 @@ import AddressPage from './module/component/AddressPage';
 
 import Errorpage from './module/shares/Errorpage';
 import PaymentPage from './module/component/PaymentPage';
-import Homepage from './module/component/Homepage';
-
+import Homepag from './module/component/Homepag';
 
 
 
@@ -37,7 +36,7 @@ root.render(
        
        <Routes>
 
-    <Route path='' element={<Homepage/>}/>
+    <Route path='' element={<Homepag/>}/>
     <Route path='*' element={<Errorpage/>}/>
     <Route path='login' element={<Login/>}/>
     <Route path='signup' element={<Signup/>}/>
