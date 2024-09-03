@@ -54,6 +54,9 @@ function Login() {
 
 
             if (res.status === 422) {
+                const fullname = res.fullname || 'User';
+                localStorage.setItem('fullname', fullname);
+                
                 toast.success(`Welcome, ${res.fullname || 'User'}`);
                 setTimeout(() => {
                     usenav('/Home');
