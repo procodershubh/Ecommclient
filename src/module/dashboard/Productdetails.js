@@ -7,7 +7,7 @@ import { FaRupeeSign } from "react-icons/fa";
 import { MdAddShoppingCart } from "react-icons/md";
 import { IoLocation } from "react-icons/io5";
 import { useCart } from '../component/Cartcontext'; // Adjust path as needed
-import { backendurl } from '../../service';
+import { backendurl } from '../../Servicepage';
 
 
 

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { FaStar } from "react-icons/fa6";
 import { FaRegStarHalfStroke } from "react-icons/fa6";
 import { FaRupeeSign } from "react-icons/fa";
-import { backendurl } from '../../service';
+import { backendurl } from '../../Servicepage';
 
 function Menfashion() {
   const[mydata,setmydata]= useState([]);

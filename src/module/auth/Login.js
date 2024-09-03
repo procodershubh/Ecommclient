@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { backendurl } from '../../service';
+import { backendurl } from '../../Servicepage';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -54,16 +54,10 @@ function Login() {
 
 
             if (res.status === 422) {
-
-                const fullname = res.fullname || 'User';
-                localStorage.setItem('fullname', fullname);
-
                 toast.success(`Welcome, ${res.fullname || 'User'}`);
                 setTimeout(() => {
                     usenav('/Home');
-
                 }, 2000);
-
             }
             else if (res.status === 408) {
                 toast.error(res.message || "Invalid email or password");
