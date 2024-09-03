@@ -88,7 +88,7 @@ function Login() {
     return (
         <form >
 
-            <div className='container-fluid  ' style={{ backgroundImage: 'url(img/home.jpg)', backgroundSize: '100% 100%', height: '100vh' }}>
+            <div className='container-fluid  ' style={{ backgroundImage: 'url(img/pichome.jpg)', backgroundSize: '100% 100%', height: '100vh' }}>
                 <div className='row  '>
                     <div className='col-md-6'></div>
                     <div className='col-md-4 border shadow p-3 ' style={{ marginTop: '100px' }}>

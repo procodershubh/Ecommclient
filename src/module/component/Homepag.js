@@ -6,7 +6,7 @@ function Homepag() {
 
 
   return (
-    <div class="container-fluid text-center " style={{ backgroundImage: 'url(img/home.jpg)', backgroundSize: '100% 100%', height: '100vh' }}>
+    <div class="container-fluid text-center " style={{ backgroundImage: 'url(img/pichome.jpg)', backgroundSize: '100% 100%', height: '100vh' }}>
       <div class="row align-items-center" >
        
         <div className='col-md-6'></div>

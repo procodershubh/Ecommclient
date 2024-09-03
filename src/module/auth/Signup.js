@@ -114,7 +114,7 @@ const handleSubmit = (e) => {
 
   return (
     <form onSubmit={handleSubmit} >
-      <div className='container-fluid signupbg' style={{ backgroundImage: 'url(img/home.jpg)', backgroundSize: '100% 100%', height: '100vh' }}>
+      <div className='container-fluid signupbg' style={{ backgroundImage: 'url(img/pichome.jpg)', backgroundSize: '100% 100%', height: '100vh' }}>
         <div className='container'>
           <div className='row'>
             <div className='col-md-6'></div>
