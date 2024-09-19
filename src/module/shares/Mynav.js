@@ -1,12 +1,30 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaCartShopping } from "react-icons/fa6";
 import { useCart } from '../component/Cartcontext';
 import { IoIosLogOut } from "react-icons/io";
+import { FaShoppingBag } from "react-icons/fa";
 
 
 function Mynav() {
+  const navigate = useNavigate();
+
   const fullname = localStorage.getItem('fullname') || 'Guest';
+  
+  const handleLogout = () => {
+    // Remove the token from local storage
+    localStorage.removeItem('token');
+    localStorage.removeItem('fullname'); // Clear fullname on logout
+
+
+    alert('Logged out successfully');
+    // Redirect to login page
+    navigate('/login');
+};
+
+const handlemyorder =() =>{
+  navigate('/Myorder')
+}
 
 
   const { cart } = useCart();
@@ -47,7 +65,10 @@ function Mynav() {
             {fullname}
           </Link>
           <ul className="dropdown-menu">
-            <li><Link className="dropdown-item" style={{color:'black'}} to="/"> < IoIosLogOut/> LogOut </Link></li>
+          <li style={{marginBottom:'5px'}}> <button className='btn btn-light' style={{width:"152px"}} onClick={handlemyorder}><FaShoppingBag/> MyOrder</button> </li>
+             
+            <li> <button className='btn btn-light' style={{width:"152px"}} onClick={handleLogout}><IoIosLogOut/> Logout</button> </li>
+
           </ul>
         </li>
       

@@ -53,31 +53,75 @@ function Productdetails() {
       }
     };
 
+
+    const handleMouseMove = (e) => {
+      const img = e.currentTarget;
+      const zoomImg = document.querySelector('.zoom-preview img');
+      const zoomContainer = document.querySelector('.zoom-preview');
+  
+      if (img && zoomImg && zoomContainer) {
+        const rect = img.getBoundingClientRect();
+        const offsetX = e.clientX - rect.left;
+        const offsetY = e.clientY - rect.top;
+        const x = (offsetX / img.offsetWidth) * 100;
+        const y = (offsetY / img.offsetHeight) * 100;
+  
+        zoomImg.style.transform = `translate(-${x}%, -${y}%)`;
+        zoomContainer.style.top = `${e.clientY + 20}px`;
+        zoomContainer.style.left = `${e.clientX + 20}px`;
+      }
+    };
+  
+    const handleMouseEnter = () => {
+      const zoomContainer = document.querySelector('.zoom-preview');
+      if (zoomContainer) {
+        zoomContainer.style.display = 'block';
+      }
+    };
+  
+    const handleMouseLeave = () => {
+      const zoomContainer = document.querySelector('.zoom-preview');
+      if (zoomContainer) {
+        zoomContainer.style.display = 'none';
+      }
+    };
+
+
+
+
   return (
    <div className='container p-2'>
     <div style={{height:'100%'}} className='row shadow p-4'>
-        <div className='col-md-4 viewimg'>
-            <img className='productimg border'  src={singledata.image} alt='sk'/>
-
-            <div class="d-flex flex-row bd-highlight mb-3 mt-5 ">
-  <div class="p-2 bd-highlight"> 
-  <button className="btn btn-warning" onClick={handleAddToCart}> <MdAddShoppingCart/> Add to Cart</button>
-  </div>
-  <div class="p-2 bd-highlight">
-  <button className="btn btn-success" onClick={handleBuyNow}>Buy Now</button>
-  </div>
-</div>
-
-
-
-          
-           
+    <div className='col-md-4 viewimg'>
+          <div
+            className='productimg-container'
+            onMouseMove={handleMouseMove}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <img className='productimg border' src={singledata.image} alt='Product' />
+          </div>
+          <div className="d-flex flex-row bd-highlight mb-3 mt-5">
+            <div className="p-2 bd-highlight">
+              <button className="btn btn-warning" onClick={handleAddToCart}>
+                <MdAddShoppingCart /> Add to Cart
+              </button>
+            </div>
+            <div className="p-2 bd-highlight">
+              <button className="btn btn-success" onClick={handleBuyNow}>Buy Now</button>
+            </div>
+          </div>
         </div>
         <div className='col-md-8'>
             <h3>{singledata.title}</h3>
-            <li style={{color:'red',cursor:'pointer',listStyleType:'none'}}><FaStar/> <FaStar /> <FaStar/> <FaStar/> <FaRegStarHalfStroke /></li>
+            <li style={{color:'#ffcc00',cursor:'pointer',listStyleType:'none'}}><FaStar/> <FaStar /> <FaStar/> <FaStar/> <FaRegStarHalfStroke /></li>
 
-            <p className='text-secondary mt-3'>{singledata.description}</p>
+            <p className='text-secondary mt-3'>
+                          {singledata.description && singledata.description.length > 100 ? `${singledata.description.substring(0, 100)}...` : singledata.description}
+
+            </p>
+
+
 
             <div style={{display:'flex'}} className='col-md-12'>
             <h2 class="text-dark"><FaRupeeSign />{singledata.price}</h2>
@@ -88,7 +132,7 @@ function Productdetails() {
             <p class="text-success">Save extra with combo offers</p>
             <h5>Available offers</h5>
             <p>Special PriceGet extra ₹3000 off (price inclusive of cashback/coupon)</p>
-            <p>Bank OfferGet ₹50 instant discount on first Flipkart UPI txn on order of ₹200 and above</p>
+            <p>Bank OfferGet ₹50 instant discount on first  UPI txn on order of ₹200 and above</p>
 
             <IoLocation />
              <input placeholder="Enter Delivery Pincode" type="text" id="pincodeInputId" onChange={(e) => setPincode(e.target.value)}></input>
@@ -100,6 +144,9 @@ function Productdetails() {
 
         
     </div>
+    <div className='zoom-preview'>
+        <img src={singledata.image} alt='Zoom Preview' />
+      </div>
    </div>
   )
 }

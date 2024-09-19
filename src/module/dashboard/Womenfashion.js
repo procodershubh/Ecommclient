@@ -1,4 +1,6 @@
 import React, { useEffect,useState } from 'react';
+import axios from 'axios';
+
 import { Link } from 'react-router-dom';
 import { FaStar } from "react-icons/fa6";
 import { FaRegStarHalfStroke } from "react-icons/fa6";
@@ -9,17 +11,21 @@ import { backendurl } from '../../Servicepage';
 function Menfashion() {
     const[mydata,setdata]=useState([])
 
+ 
+
     const myapi =()=>{
-    fetch(`${backendurl}/products`).then((d)=>{
-        return d.json()
-    }).then((e)=>{
-        setdata(e); 
-        console.log(e);
-    })
-    }
-    useEffect(()=>{
-        myapi();  
-    },[]);
+      axios.get(`${backendurl}/products`).then((d) => {
+       // Filter only products with category "men's clothing"
+       const filteredData = d.data.filter(product => product.category === "women's clothing");
+       console.log(filteredData);
+       setdata(filteredData);
+      });
+      
+      
+    };
+    useEffect(() =>{
+      myapi();
+    }, []);
 
   
   return (
@@ -35,11 +41,16 @@ function Menfashion() {
   <div class="col-md-4">
     <div class="d-flex align-items-center mb-2">
       <span class="badge bg-light text-secondary me-2">Sponsored</span>
-      <Link to={`view/${e._id}`}><h5 style={{cursor:'pointer'}} class="mb-0 text-primary">{e.title}</h5></Link>
+      <Link to={`view/${e._id}`}><h5 style={{cursor:'pointer'}} class="mb-0 text-primary">
+      {e.title.length > 30 ? `${e.title.substring(0, 30)}...` : e.title}
+      </h5></Link>
       {/* <h5 style={{cursor:'pointer'}} class="mb-0 text-primary">{e.title}</h5> */}
     </div>
     <ul class="list-unstyled">
-      <li style={{maxLines:'100'}}>{e.description}</li>
+      <li style={{maxLines:'100'}}>
+      {e.description.length > 60 ? `${e.description.substring(0, 60)}...` : e.description}
+
+      </li>
       <li style={{color:'red',cursor:'pointer'}}><FaStar/> <FaStar /> <FaStar/> <FaStar/> <FaRegStarHalfStroke /></li>
       
 

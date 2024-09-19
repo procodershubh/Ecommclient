@@ -348,7 +348,7 @@ function Myfirst() {
                                 <div className='row'>
                                     <div className='col-12'>
                                         <select style={{ textAlign: 'center' }}>
-                                            <option hidden>-Please select Size-</option>
+                                            <option hidden>-select Size-</option>
                                             <option>10 L</option>
                                         </select>
                                     </div>
@@ -382,7 +382,7 @@ function Myfirst() {
                                 <div className='row'>
                                     <div className='col-12'>
                                         <select style={{ textAlign: 'center' }}>
-                                            <option hidden>-Please select Size-</option>
+                                            <option hidden>-select Size-</option>
                                             <option>6</option>
                                             <option>7</option>
                                             <option>8</option>
@@ -419,7 +419,7 @@ function Myfirst() {
                                 <div className='row'>
                                     <div className='col-12'>
                                         <select style={{ textAlign: 'center' }}>
-                                            <option hidden>-Please select Size-</option>
+                                            <option hidden>-select Size-</option>
                                             <option>Free-Size</option>
 
                                         </select>
@@ -454,7 +454,7 @@ function Myfirst() {
                                 <div className='row'>
                                     <div className='col-12'>
                                         <select style={{ textAlign: 'center' }}>
-                                            <option hidden>-Please select Size-</option>
+                                            <option hidden>-select Size-</option>
                                             <option>7</option>
                                             <option>8</option>
                                             <option>9</option>

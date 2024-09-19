@@ -27,12 +27,15 @@ function Login() {
         }));
     };
 
-    const mylogin = async () => {
+        // Function for login
 
+    const mylogin = async () => {
         const { email, pass, check } = userlogin;
+
+                // Basic validation
         if (email === "" || pass === "") {
             toast.warning("email or password is blank");
-
+                                
         }
         else if (!check) {
             toast.warning("You must agree to the terms and conditions");
@@ -48,6 +51,7 @@ function Login() {
                     email, pass
                 })
             });
+
             const res = await mydata.json();
             console.log(res); // Debugging line
 
@@ -56,6 +60,8 @@ function Login() {
             if (res.status === 422) {
                 const fullname = res.fullname || 'User';
                 localStorage.setItem('fullname', fullname);
+                localStorage.setItem("token", res.token);
+
                 
                 toast.success(`Welcome, ${res.fullname || 'User'}`);
                 setTimeout(() => {

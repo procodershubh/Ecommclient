@@ -1,77 +1,124 @@
-// src/module/component/PaymentPage.js
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { backendurl } from '../../Servicepage';
 
 function PaymentPage() {
-  const [paymentMethod, setPaymentMethod] = useState('');
-  const [upiId, setUpiId] = useState('');
-  const [cardName, setCardName] = useState('');
-  const [cardNumber, setCardNumber] = useState('');
-  const [expiration, setExpiration] = useState('');
-  const [cvv, setCvv] = useState('');
-  const navigate = useNavigate();
 
-  const handlePaymentMethodChange = (e) => {
-    setPaymentMethod(e.target.value);
-  };
+  const [responseId, setResponseId] = useState("");
+  const [responseState, setResponseState] = useState([]);
 
-  const handleSubmit = (e) => {
+  const loadScript = (src) => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+
+      script.src = src;
+
+      script.onload = () => {
+        resolve(true)
+      }
+      script.onerror = () => {
+        resolve(false)
+      }
+
+      document.body.appendChild(script);
+    })
+  }
+
+  const createRazorpayOrder = (amount) => {
+    let data = JSON.stringify({
+      amount: amount * amount,
+      currency: "INR"
+    })
+
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: `${backendurl}/orders`,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: data
+    }
+
+    axios.request(config)
+    .then((response) => {
+      console.log(JSON.stringify(response.data))
+      handleRazorpayScreen(response.data.amount)
+    })
+    .catch((error) => {
+      console.log("error at", error)
+    })
+  }
+
+  const handleRazorpayScreen = async(amount) => {
+    const res = await loadScript("https:/checkout.razorpay.com/v1/checkout.js")
+
+    if (!res) {
+      alert("Some error at razorpay screen loading")
+      return;
+    }
+
+    const options = {
+      key: 'rzp_test_vLNwE2d4Veoggk',
+      amount: amount,
+      currency: 'INR',
+      name: "papaya coders",
+      description: "payment to papaya coders",
+      image: "https://papayacoders.com/demo.png",
+      handler: function (response){
+        setResponseId(response.razorpay_payment_id)
+      },
+      prefill: {
+        name: "papaya coders",
+        email: "papayacoders@gmail.com"
+      },
+      theme: {
+        color: "#F4C430"
+      }
+    }
+
+    const paymentObject = new window.Razorpay(options)
+    paymentObject.open()
+  }
+
+  const paymentFetch = (e) => {
     e.preventDefault();
-    // You can handle form submission here (e.g., finalize payment and order)
-    navigate('/order-confirmation');
-  };
 
-  return (
-    <div className='container'>
-      <h2>Payment Details</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label className="form-label">Payment Method</label>
-          <div className="form-check">
-            <input className="form-check-input" type="radio" id="credit" value="credit" checked={paymentMethod === 'credit'} onChange={handlePaymentMethodChange} />
-            <label className="form-check-label" htmlFor="credit">Credit Card</label>
-          </div>
-          <div className="form-check">
-            <input className="form-check-input" type="radio" id="debit" value="debit" checked={paymentMethod === 'debit'} onChange={handlePaymentMethodChange} />
-            <label className="form-check-label" htmlFor="debit">Debit Card</label>
-          </div>
-          <div className="form-check">
-            <input className="form-check-input" type="radio" id="upi" value="upi" checked={paymentMethod === 'upi'} onChange={handlePaymentMethodChange} />
-            <label className="form-check-label" htmlFor="upi">UPI</label>
-          </div>
-        </div>
+    const paymentId = e.target.paymentId.value;
 
-        {paymentMethod === 'upi' && (
-          <div className="mb-3">
-            <label htmlFor="upi-id" className="form-label">UPI ID</label>
-            <input type="text" className="form-control" id="upi-id" value={upiId} onChange={(e) => setUpiId(e.target.value)} required />
-          </div>
+    axios.get(`${backendurl}/payment/${paymentId}`)
+    .then((response) => {
+      console.log(response.data);
+      setResponseState(response.data)
+    })
+    .catch((error) => {
+      console.log("error occures", error)
+    })
+  }
+  
+   
+
+    return (
+        <>  
+             <div className="App">
+      <button onClick={() => createRazorpayOrder(100)}>Payment of 100Rs.</button>
+      {responseId && <p>{responseId}</p>}
+      <h1>This is payment verification form</h1>
+      <form onSubmit={paymentFetch}>
+        <input type="text" name="paymentId" />
+        <button type="submit">Fetch Payment</button>
+        {responseState.length !==0 && (
+          <ul>
+            <li>Amount: {responseState.amount / 100} Rs.</li>
+            <li>Currency: {responseState.currency}</li>
+            <li>Status: {responseState.status}</li>
+            <li>Method: {responseState.method}</li>
+          </ul>
         )}
-
-        {(paymentMethod === 'credit' || paymentMethod === 'debit') && (
-          <>
-            <div className="mb-3">
-              <label htmlFor="card-name" className="form-label">Name on Card</label>
-              <input type="text" className="form-control" id="card-name" value={cardName} onChange={(e) => setCardName(e.target.value)} required />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="card-number" className="form-label">Card Number</label>
-              <input type="text" className="form-control" id="card-number" value={cardNumber} onChange={(e) => setCardNumber(e.target.value)} required />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="expiration" className="form-label">Expiration Date</label>
-              <input type="text" className="form-control" id="expiration" value={expiration} onChange={(e) => setExpiration(e.target.value)} required />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="cvv" className="form-label">CVV</label>
-              <input type="text" className="form-control" id="cvv" value={cvv} onChange={(e) => setCvv(e.target.value)} required />
-            </div>
-          </>
-        )}
-        <button type="submit" className="btn btn-primary">Complete Payment</button>
       </form>
     </div>
-  );
+        </>
+    );
 }
 
 export default PaymentPage;

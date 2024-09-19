@@ -143,3 +143,233 @@
  
   
    
+
+
+
+  /* Add this to your CSS file */
+.status-bar {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.status {
+  padding: 5px 10px;
+  border-radius: 3px;
+  font-weight: bold;
+}
+
+.status.pending {
+  background-color: #f0ad4e;
+  color: #fff;
+}
+
+.status.completed {
+  background-color: #5bc0de;
+  color: #fff;
+}
+
+.status.cancelled {
+  background-color: #d9534f;
+  color: #fff;
+}
+
+
+
+
+
+
+
+
+
+
+
+.order-details-card {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.order-details-heading {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.order-info h4, .status-bar h4 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.order-info p, .status-bar p {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Status Badge */
+.status-badge {
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+/* Status color schemes */
+.status-badge.pending {
+  background-color: #ff9800;
+  color: white;
+}
+
+.status-badge.shipped {
+  background-color: #03a9f4;
+  color: white;
+}
+
+.status-badge.delivered {
+  background-color: #4caf50;
+  color: white;
+}
+
+.status-badge.cancelled {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Product Card */
+.product-card {
+  display: flex;
+  align-items: center;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.product-card:hover {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.product-image {
+  max-width: 120px;
+  object-fit: cover;
+}
+
+.product-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.product-description {
+  color: #777;
+  margin: 10px 0;
+}
+
+.product-price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .product-card {
+    flex-direction: column;
+  }
+  
+  .product-image {
+    margin-bottom: 15px;
+  }
+}
+
+
+
+
+
+
+.productimg-container {
+  position: relative;
+}
+
+.productimg {
+  transition: transform 0.5s ease;
+}
+
+.zoom-preview {
+  position: absolute;
+  border: 2px solid #000;
+  width: 400px; /* Adjust size as needed */
+  height: 400px; /* Adjust size as needed */
+  overflow: hidden;
+  
+  display: none;
+  pointer-events: none;
+  background-color: #fff; /* Optional: background color for better visibility */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Optional: shadow for better visibility */
+}
+
+.zoom-preview img {
+  position: absolute;
+  width: 200%; /* Adjust size for zoom level */
+  height: 2 00%; /* Adjust size for zoom level */
+  transition: transform 0.1s ease;
+}
+
+
+
+/* OrderTracking.css */
+.progress-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  margin-top: 20px;
+}
+
+.progress-step {
+  display: flex;
+  align-items: center;
+  position: relative;
+  text-align: center;
+  font-weight: bold;
+  flex: 1;
+}
+
+.progress-step span {
+  background-color: #f0f0f0;
+  padding: 10px 15px;
+  border-radius: 50%;
+  z-index: 2;
+  position: relative;
+  font-size: 14px;
+}
+
+.progress-step.active span {
+  background-color: #28a745; /* Green for active steps */
+  color: white;
+}
+
+.progress-step.cancelled span {
+  background-color: red; /* Red for cancelled status */
+  color: white;
+}
+
+.progress-line {
+  position: absolute;
+  top: 50%;
+  left: calc(100% - 12px);
+  height: 4px;
+  width: 100%;
+  background-color: #ccc;
+  z-index: 1;
+}
+
+.progress-step.active + .progress-line {
+  background-color: #28a745; /* Green line for active steps */
+}
+
+.progress-step.cancelled + .progress-line {
+  background-color: red; /* Red line for cancelled status */
+}

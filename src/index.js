@@ -17,10 +17,15 @@ import Productdetails from './module/dashboard/Productdetails';
 import Mycart from './module/component/Mycart';
 
 import AddressPage from './module/component/AddressPage';
+import { Provider } from 'react-redux';
+import { cart } from './module/reduxpage/store'; // Adjust the path to your store
 
 import Errorpage from './module/shares/Errorpage';
-import PaymentPage from './module/component/PaymentPage';
 import Homepag from './module/component/Homepag';
+import Ordersuccess from './module/component/Ordersuccess';
+import Myorder from './module/component/Myorder';
+import Myorderdetails from './module/component/Myorderdetails';
+import PrivateRoute from './module/auth/PrivateRoute';
 
 
 
@@ -29,45 +34,55 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <React.StrictMode>
-
     <BrowserRouter>
-    <CartProvider>
-    <Layout>
+     <CartProvider>
+       <Layout>
+       <Provider store={cart}>
+
        
        <Routes>
-
+  
     <Route path='' element={<Homepag/>}/>
-    <Route path='*' element={<Errorpage/>}/>
     <Route path='login' element={<Login/>}/>
     <Route path='signup' element={<Signup/>}/>
-    <Route path='Home' element={<Myfirst/>}/>
-    <Route path='Home/menfashion' element={<Menfashion/>}/>
+    <Route path='*' element={<Errorpage/>}/>
 
-    <Route path='Home/womenfashion' element={<Womenfashion/>}/>
+    
+    <Route path='Home' element={ <PrivateRoute><Myfirst/></PrivateRoute> }/>
+    <Route path='Home/menfashion' element={<PrivateRoute><Menfashion/></PrivateRoute>}/>
 
-    <Route path='Home/childfashion' element={<Childfashion/>}/>
+    <Route path='Home/womenfashion' element={<PrivateRoute><Womenfashion/></PrivateRoute>}/>
 
-    <Route path='Home/footwear' element={<Footwear/>}/>
+    <Route path='Home/childfashion' element={<PrivateRoute><Childfashion/></PrivateRoute>}/>
+
+    <Route path='Home/footwear' element={<PrivateRoute><Footwear/></PrivateRoute>}/>
 
    
-    <Route path='Home/childfashion/view/:id' element={<Productdetails/>}/>
-    <Route path='Home/childfashion/view/:id/buynow' element={<Mycart/>}/>
-    <Route path='Home/menfashion/view/:id' element={<Productdetails/>}/>
-    <Route path='Home/menfashion/view/:id/buynow' element={<Mycart/>}/>
-    <Route path='Home/womenfashion/view/:id'element={<Productdetails/>}/>
-    <Route path='Home/womenfashion/view/:id/buynow' element={<Mycart/>}/>
-    <Route path='Home/footwear/view/:id' element={<Productdetails/>}/>
-    <Route path='footwear/view/:id/buynow' element={<Mycart/>}/>
-    <Route path='cart' element={<Mycart/>}/>
+    <Route path='Home/childfashion/view/:id' element={<PrivateRoute><Productdetails/></PrivateRoute>}/>
+    <Route path='Home/childfashion/view/:id/buynow' element={<PrivateRoute><Mycart/></PrivateRoute>}/>
+    <Route path='Home/menfashion/view/:id' element={<PrivateRoute><Productdetails/></PrivateRoute>}/>
+    <Route path='Home/menfashion/view/:id/buynow' element={<PrivateRoute><Mycart/></PrivateRoute>}/>
+    <Route path='Home/womenfashion/view/:id'element={<PrivateRoute><Productdetails/></PrivateRoute>}/>
+    <Route path='Home/womenfashion/view/:id/buynow' element={<PrivateRoute><Mycart/></PrivateRoute>}/>
+    <Route path='Home/footwear/view/:id' element={<PrivateRoute><Productdetails/></PrivateRoute>}/>
+    <Route path='footwear/view/:id/buynow' element={<PrivateRoute><Mycart/></PrivateRoute>}/>
+    <Route path='cart' element={<PrivateRoute><Mycart/></PrivateRoute>}/>
     {/* <Route path='childfashion/view/:id/buylater' element={<Mycart/>}/> */}
-    <Route path='childfashion/buynow' element={<Mycart/>}/>
-    <Route path='cart/AddressPage' element={<AddressPage />} />
-    <Route path='/cart/AddressPage/payment' element={<PaymentPage/>}/>
+    <Route path='childfashion/buynow' element={<PrivateRoute><Mycart/></PrivateRoute>}/>
+    <Route path='cart/AddressPage' element={<PrivateRoute><AddressPage /></PrivateRoute>} />
+    <Route path='Ordersuccess' element={<PrivateRoute><Ordersuccess /></PrivateRoute>} />
+    <Route path='Myorder' element={<PrivateRoute><Myorder /></PrivateRoute>} />
+    <Route path='Myorder/view/:id' element={<PrivateRoute><Myorderdetails/></PrivateRoute>} />
+    <Route path='/view/:id' element={<PrivateRoute><Productdetails/></PrivateRoute>} />
+
+    
 
     
 
 
     </Routes>
+    </Provider>,
+
     </Layout>
 
 
