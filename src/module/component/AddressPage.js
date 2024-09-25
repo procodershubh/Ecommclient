@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { backendurl } from '../../Servicepage';
+import { backendurl, razorkey } from '../../Servicepage';
 import { useCart } from './Cartcontext'; // Import useCart
 
 function AddressPage() {
@@ -11,22 +11,17 @@ function AddressPage() {
   const [state, setState] = useState('');
   const [zip, setZip] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false); // Loading state
+        
   const navigate = useNavigate();
   const location = useLocation();
   const cart = location.state?.cart || []; // Ensure cart is an array
   const { clearCart } = useCart(); // Destructure clearCart from useCart
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  
-    if (!name || !address || !city || !mobile || !state || !zip) {
-      setError('Please fill in all fields.');
-      return;
-    }
-  
+  const handlePaymentSuccess = (response) => {
+    // Payment is successful, now proceed to submit the order data
     const orderDate = new Date().toISOString(); // ISO format to ensure it's standard
-  
-    // Calculate total price for each item
+
     const orderData = {
       name,
       address,
@@ -34,19 +29,22 @@ function AddressPage() {
       city,
       state,
       zip,
-      orderDate, // Add order date to order data
+      orderDate,
       cartItems: cart.map(product => ({
         title: product.title,
         description: product.description,
-        quantity: product.quantity || 1, // Ensure quantity is included 
-        // price: product.price,
+        quantity: product.quantity || 1, // Ensure quantity is included
         price: (product.price * (product.quantity || 1)).toFixed(2), // Ensure price is included
-        image: product.image || '', // Include image if available, default to empty string if not
+        image: product.image || '', // Include image if available
       })),
+      paymentId: response.razorpay_payment_id, // Store the payment ID
+      paymentStatus: 'completed', // Manually set the payment status to completed
+
+      orderId: response.razorpay_order_id, // Store the order ID from Razorpay
     };
-  
-    const token = localStorage.getItem('token'); // Get the token from local storage
-  
+
+    const token = localStorage.getItem('token'); // Check if this is not null
+
     fetch(`${backendurl}/orders`, {
       method: 'POST',
       headers: {
@@ -75,11 +73,71 @@ function AddressPage() {
         setError('Error submitting order. Please try again.');
       });
   };
-  
+
+  const handleProceedToPayment = async (e) => {
+    e.preventDefault();
+
+    if (!name || !address || !city || !mobile || !state || !zip) {
+      setError('Please fill in all fields.');
+      return;
+    }
+
+    const amount = cart.reduce((total, product) => total + (product.price * (product.quantity || 1)), 0).toFixed(2) * 100;
+
+
+    setLoading(true); // Start loading state
+
+    const token = localStorage.getItem('token'); // Check if this is not null
+
+    // Create an order in the backend to get the Razorpay order ID
+    try {
+      const response = await fetch(`${backendurl}/razorpay/create-order`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`, // Include token in the header
+
+        },
+        
+        body: JSON.stringify({ amount }), // Send the amount to create the Razorpay order
+      });
+
+      const order = await response.json();
+
+      // Razorpay options
+      const options = {
+        key: `${razorkey}`, // Replace with your Razorpay key
+        
+        amount: order.amount, // in paise (smallest currency unit)
+        currency: 'INR',
+        name: 'shubham ecommerce',
+        description: 'Order Payment',
+        order_id: order.id, // Get order ID from backend
+        handler: handlePaymentSuccess, // On successful payment
+        prefill: {
+          name: name,
+          contact: mobile,
+        },
+        theme: {
+          color: '#3399cc',
+        },
+        
+      };
+
+      console.log(options)
+
+      const rzp = new window.Razorpay(options);
+      rzp.open(); // Open Razorpay payment window
+    } catch (error) {
+      console.error('Error creating Razorpay order:', error);
+      setError('Error creating Razorpay order. Please try again.');
+    }
+  };
+
   return (
     <div className='container'>
       <h2>Address Details</h2>
-      <form onSubmit={handleSubmit}>
+      <form >
         <div className="mb-2">
           <label htmlFor="Name" className="form-label">Name</label>
           <input type="text" className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} required />
@@ -105,10 +163,13 @@ function AddressPage() {
           <input type="text" className="form-control" id="zip" value={zip} onChange={(e) => setZip(e.target.value)} required />
         </div>
         {error && <p className="text-danger">{error}</p>} {/* Display error message */}
-        <button type="submit" className="btn btn-primary">Proceed to Payment</button>
-      </form>
+        <button type="submit" onClick={handleProceedToPayment} className="btn btn-primary">
+          {loading ? 'Processing...' : 'Proceed to Payment'} 
+        </button>      </form>
     </div>
   );
 }
+
+
 
 export default AddressPage;

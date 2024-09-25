@@ -36,7 +36,7 @@ function Mycart() {
 
                       <div className="d-flex align-items-center">
                         <span className="me-2 text-primary">₹{product.price}</span>
-                        <span className="border rounded p-2">
+                        <span className="border rounded p-2" style={{width:"max-content"}}>
                           <button className="btn btn-sm btn-secondary me-1" type='button' onClick={() => handleQuantityChange(product, 'increment')}>+</button>
                           {product.quantity || 1} {/* Display quantity */}
                           <button className="btn btn-sm btn-secondary ms-1" type='button' onClick={() => handleQuantityChange(product, 'decrement')}>-</button>

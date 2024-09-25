@@ -125,6 +125,7 @@ function Myorderdetails() {
               <p><strong>State:</strong> {order.state}</p>
               <p><strong>Zip Code:</strong> {order.zip}</p>
               <p><strong>Order Date:</strong> {formatDate(order.orderDate)}</p> {/* Assuming `orderDate` is the date field */}
+              <p><strong>PaymentId:</strong> {order.paymentId}</p> {/* Assuming `orderDate` is the date field */}
 
             </div>
           </div>
